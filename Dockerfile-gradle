@@ -1,0 +1,19 @@
+# Use an official OpenJDK 11 image with the JDK included
+FROM openjdk:11-jdk-slim
+# Set environment variables for Gradle
+ENV GRADLE_VERSION 7.2
+# Create a directory for your application
+WORKDIR /app
+# Copy the Gradle wrapper files into the container
+COPY gradlew .
+COPY gradle gradle
+# Copy the entire project into the container
+COPY . .
+# Make the Gradlew script executable
+RUN chmod +x gradlew
+# Build the project using the Gradlew script
+RUN ./gradlew build -x test
+# Expose the port your RestAssured tests will run on (if needed)
+# EXPOSE 8080
+# Define the command to run your tests (adjust as needed)
+CMD ["./gradlew", "test"]
